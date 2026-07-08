@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY api ./api
 COPY model ./model
+COPY data/postal_code_coordinates.csv ./data/postal_code_coordinates.csv
 
 EXPOSE 8000
 
