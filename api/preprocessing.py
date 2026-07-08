@@ -33,6 +33,46 @@ CITIES_50K = {
 
 ALL_CITIES = {**METRO_AREAS, **CITIES_50K}
 
+postal_df = pd.read_csv("data/postal_code_coordinates.csv")
+
+POSTAL_CODE_COORDINATES =dict(
+    zip(
+        postal_df["postal_code"].astype(str),
+        zip(postal_df["latitude"], postal_df["longitude"])
+    )
+)
+
+def add_coordinates_from_postal_code(df):
+    df = df.copy()
+
+    if "postal_code" not in df.columns:
+        return df
+    
+    if "latitude" not in df.columns:
+        df["latitude"] =None 
+
+    if "longitude" not in df.columns:
+        df["longitude"] = None
+
+    def fill_coordinates(row):
+        has_latitude = pd.notna(row["latitude"])
+        has_longitude = pd.notna(row["longitude"])
+
+        if has_latitude and has_longitude:
+            return row
+
+        postal_code = str(row["postal_code"])
+        coordinates = POSTAL_CODE_COORDINATES.get(postal_code)
+
+        if coordinates is None:
+            return row
+
+        row["latitude"] = coordinates[0]
+        row["longitude"] = coordinates[1]
+
+        return row
+    
+    return df.apply(fill_coordinates, axis = 1 )
 
 def haversine(lat1, lon1, lat2, lon2):
     earth_radius_km = 6371
@@ -71,7 +111,7 @@ def remove_outliers_by_group(df, group_col="postal_code", k=1.5, min_group_size=
 def clean_data(df):
     df = df.copy()
 
-    if "longitude" in df.columns and "latitude" in df.columns:
+    if  "price" in df.columns and "longitude" in df.columns and "latitude" in df.columns:
         df = df.dropna(subset=["longitude", "latitude"])
 
     if "category" in df.columns:
@@ -95,6 +135,8 @@ def clean_data(df):
 
 def features_engineering(df):
     df = df.copy()
+
+    df = add_coordinates_from_postal_code(df)
 
     epc_map = {
         "FlandersDoubleA": 4,
@@ -134,7 +176,12 @@ def features_engineering(df):
         }
         df["kitchen_level"] = df["kitchen_equipment"].map(kitchen_map)
 
-    if "latitude" in df.columns and "longitude" in df.columns:
+    if (
+        "latitude" in df.columns
+        and "longitude" in df.columns
+        and df["latitude"].notna().all()
+        and df["longitude"].notna().all()
+    ):
         for city, (city_lat, city_lon) in ALL_CITIES.items():
             df[f"dist_{city.lower()}"] = df.apply(
                 lambda row: haversine(
