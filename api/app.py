@@ -2,6 +2,7 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 from api.predict import predict
+import time
 
 
 app = FastAPI()
@@ -40,8 +41,13 @@ def health_check():
 
 @app.post("/predict")
 def predict_price(data: PropertyInput):
+    start = time.time()
+        
     prediction = predict(data.model_dump(exclude_none=True))
 
+    duration = time.time() - start
+    print(f"Prediction took {duration: .2f} seconds")
+    
     return {
         "prediction": prediction,
         "status_code": 200

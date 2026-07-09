@@ -47,9 +47,9 @@ def preprocess(data):
 
     return df[feature_cols]
 
+model = load_model()
 
 def predict(data):
-    model = load_model()
     X = preprocess(data)
     predictions = model.predict(X)
 
