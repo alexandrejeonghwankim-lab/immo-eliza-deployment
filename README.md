@@ -352,4 +352,17 @@ The project includes:
 - Optional address geocoding
 - User input validation
 
+## Future Improvements
+
+Possible next improvements:
+
+- Improve the visual design of the Streamlit app
+- Add more detailed API error messages
+- Add automated tests for the API endpoint
+- Improve model performance with more training data
+- Replace free Render hosting with a non-sleeping service for faster response time
+- Add a more detailed README with screenshots and live demo links
+- Add validation to check whether the postal code matches the selected province.
+  
+
 ![img](image/Immo_Eliza.png)
