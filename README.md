@@ -4,6 +4,11 @@ This repository contains the deployment part of the Immo Eliza property price pr
 
 The goal is to expose a trained machine learning model through a FastAPI backend, provide a user-friendly Streamlit frontend, and connect both deployed services together.
 
+## Live Demo
+
+- Streamlit app: https://immo-eliza-deployment-pqmmuyudqtwqdalnvhk6h6.streamlit.app/
+- FastAPI backend: https://immo-eliza-deployment-ru4g.onrender.com/
+
 ## Repository Structure
 
 ```
@@ -371,4 +376,5 @@ Possible next improvements:
 - Replace free Render hosting with a non-sleeping service for faster response time
 - Add a more detailed README with screenshots and live demo links
 
-`![Immo Eliza banner](image/Immo_Eliza.png)`
+
+![img](image/Immo_Eliza.png)
