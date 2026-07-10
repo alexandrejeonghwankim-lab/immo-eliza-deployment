@@ -77,7 +77,6 @@ The backend is useful because it separates the machine learning logic from the u
 
 ### Main Files
 
-
 ```
 api/app.py
 api/predict.py
@@ -90,8 +89,6 @@ requirements.txt
 
 ### How it works?
 
-
-
 1. `api/app.py` defines the FastAPI application.
 2. The `/` route checks whether the API is alive.
 3. The `/predict` route receives property data as JSON.
@@ -102,10 +99,7 @@ requirements.txt
 8. The model returns a predicted property price.
 9. FastAPI sends the prediction back as JSON.
 
-
 ### API Endpoints
-
-
 
 ```text
 GET /
@@ -138,7 +132,6 @@ Example response:
 
 ### Deployment
 
-
 The FastAPI backend is deployed on Render using Docker.
 
 The deployed API URL is:
@@ -162,7 +155,6 @@ Because the project uses Render's free tier, the API can sleep after inactivity.
 The Streamlit frontend provides a user-friendly interface for non-technical users. Instead of sending JSON manually to the API, users can fill in a form with property information and click a button to receive the predicted price.
 
 This part is focused on usability. It makes the model accessible to people who do not write code.
-
 
 ### Main File
 
@@ -203,8 +195,6 @@ The Streamlit app collects:
 Predicted price: 337,012.53 EUR
 ```
 
-
-
 ### Streamlit Design Choices
 
 The Streamlit app uses a clear form layout with sections:
@@ -231,7 +221,6 @@ The app also includes:
 ### Purpose
 
 The final goal is to combine both deployed parts:
-
 
 ```text
 FastAPI = backend / prediction service
@@ -310,8 +299,6 @@ streamlit/streamlit_app.py
 - The Streamlit app includes a wake-up request to reduce confusion for users.
 - If the API timeout happens, the user can wait and try again.
 
-
-
 ## Installation For Local Development
 
 Create and activate a virtual environment:
@@ -364,17 +351,5 @@ The project includes:
 - API speed improvements by loading the model once
 - Optional address geocoding
 - User input validation
-
-## Future Improvements
-
-Possible next improvements:
-
-- Improve the visual design of the Streamlit app
-- Add more detailed API error messages
-- Add automated tests for the API endpoint
-- Improve model performance with more training data
-- Replace free Render hosting with a non-sleeping service for faster response time
-- Add a more detailed README with screenshots and live demo links
-
 
 ![img](image/Immo_Eliza.png)
