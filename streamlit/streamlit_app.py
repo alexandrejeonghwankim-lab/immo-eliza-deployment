@@ -1,5 +1,11 @@
-import streamlit as st
+﻿import streamlit as st
 import requests
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parents[1]
+BANNER_IMAGE = BASE_DIR / "image" / "Immo_Eliza_proper.png"
+
+st.image(str(BANNER_IMAGE), use_container_width = True)
 
 
 st.set_page_config(
@@ -9,6 +15,15 @@ st.set_page_config(
 
 API_URL = "https://immo-eliza-deployment-ru4g.onrender.com/predict"
 
+def wake_api():
+    try:
+        response = requests.get("https://immo-eliza-deployment-ru4g.onrender.com",
+                                timeout=60)
+        
+        return response.status_code == 200
+
+    except requests.exceptions.RequestException:
+        return False
 
 def get_coordinates(address):
     url = "https://nominatim.openstreetmap.org/search"
@@ -341,6 +356,12 @@ if st.button("Predict price", type="primary", use_container_width=True):
         "security_door": security_door,
         "hammam_sauna_jacuzzi": hammam_sauna_jacuzzi,
     }
+
+    with st.spinner("Waking up prediction API....."):
+        api_awake = wake_api()
+
+    if not api_awake:
+        st.warning("THe API may still be waking up, Prediction can take longer.")
 
     try:
         response = requests.post(API_URL, json=property_data, timeout=90)
