@@ -365,4 +365,4 @@ Possible next improvements:
 - Add validation to check whether the postal code matches the selected province.
   
 
-![img](image/Immo_Eliza.png)
+
